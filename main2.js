@@ -741,7 +741,8 @@ $(document).ready(function () {
   var cartButton = document.getElementById("cart");
   var modalCart = document.getElementById("modal-cart");
   var modalTemplateUrl = "modal-cart.hbs"; // URL до файлу зі шаблоном
-
+  var closeButton = document.getElementsByClassName('modal-close')[0];
+  
   cartButton.addEventListener("click", function () {
     openModal();
   });
@@ -750,6 +751,20 @@ $(document).ready(function () {
     $.get(modalTemplateUrl, function (data) {
       modalCart.innerHTML = data;
       modalCart.style.display = "block";
-    });
+    });    
   }
+  
+   closeButton.addEventListener('click', function() {
+        closeModal();
+    });
+
+    function closeModal() {
+        modalCart.style.display = 'none';
+    } closeButton.addEventListener('click', function() {
+        closeModal();
+    });
+
+    function closeModal() {
+        modalCart.style.display = 'none';
+    }
 });
