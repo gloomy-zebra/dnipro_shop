@@ -739,9 +739,9 @@ $(function() {
 
 $(document).ready(function () {
   var cartButton = document.getElementById("cart");
+  var closeButton = document.getElementById("modal-close");
   var modalCart = document.getElementById("modal-cart");
   var modalTemplateUrl = "modal-cart.hbs"; // URL до файлу зі шаблоном
-  var closeButton = document.getElementsByClassName('modal-close')[0];
 
   cartButton.addEventListener("click", function () {
     openModal();
