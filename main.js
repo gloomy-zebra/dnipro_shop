@@ -736,3 +736,20 @@ $(function() {
     $('body').removeClass('modal-open');
   });
 });
+
+$(document).ready(function () {
+  var cartButton = document.getElementById("cart");
+  var modalCart = document.getElementById("modal-cart");
+  var modalTemplateUrl = "modal-cart.hbs"; // URL до файлу зі шаблоном
+
+  cartButton.addEventListener("click", function () {
+    openModal();
+  });
+
+  function openModal() {
+    $.get(modalTemplateUrl, function (data) {
+      modalCart.innerHTML = data;
+      modalCart.style.display = "block";
+    });
+  }
+});
