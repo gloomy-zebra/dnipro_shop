@@ -742,29 +742,24 @@ $(document).ready(function () {
   var modalCart = document.getElementById("modal-cart");
   var modalTemplateUrl = "modal-cart.hbs"; // URL до файлу зі шаблоном
   var closeButton = document.getElementsByClassName('modal-close')[0];
-  
+
   cartButton.addEventListener("click", function () {
     openModal();
+  });
+
+  closeButton.addEventListener('click', function() {
+    closeModal();
   });
 
   function openModal() {
     $.get(modalTemplateUrl, function (data) {
       modalCart.innerHTML = data;
       modalCart.style.display = "block";
-    });    
+    });
   }
-  
-   closeButton.addEventListener('click', function() {
-        closeModal();
-    });
 
-    function closeModal() {
-        modalCart.style.display = 'none';
-    } closeButton.addEventListener('click', function() {
-        closeModal();
-    });
-
-    function closeModal() {
-        modalCart.style.display = 'none';
-    }
+  function closeModal() {
+    modalCart.style.display = 'none';
+  }
 });
+
