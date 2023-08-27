@@ -737,29 +737,20 @@ $(function() {
   });
 });
 
-$(document).ready(function () {
-  var cartButton = document.getElementById("cart");
-  var closeButton = document.getElementById("modal-close");
-  var modalCart = document.getElementById("modal-cart");
-  var modalTemplateUrl = "modal-cart.hbs"; // URL до файлу зі шаблоном
+// Отримання кнопки та модального вікна за ID
+var cartButton = document.getElementById("cart");
+var modal = document.getElementById("mcart");
 
-  cartButton.addEventListener("click", function () {
-    openModal();
-  });
-
-  closeButton.addEventListener('click', function() {
-    closeModal();
-  });
-
-  function openModal() {
-    $.get(modalTemplateUrl, function (data) {
-      modalCart.innerHTML = data;
-      modalCart.style.display = "block";
-    });
-  }
-
-  function closeModal() {
-    modalCart.style.display = 'none';
-  }
+// Додати обробник події для кнопки
+cartButton.addEventListener("click", function() {
+    modal.style.display = "block"; // Відобразити модальне вікно
 });
+
+// Додати обробник події для закриття модального вікна
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none"; // При кліку на фон закрити модальне вікно
+    }
+});
+
 
