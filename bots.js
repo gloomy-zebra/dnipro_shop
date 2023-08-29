@@ -1,63 +1,65 @@
-$("#checkout_form").on("submit", function (event) {
-  event.preventDefault();
+$('.telegram-form').on('submit', function (event) {
 
-  let form = this;
-  let submitButton = $("#simplecheckout_button_confirm", form);
-  let data = new FormData();
-  let files = $("input[type=file]", form);
+    event.stopPropagation();
+    event.preventDefault();
 
-  submitButton.text("Оформлення замовлення").attr("disabled", true);
-  $("input, textarea", form).attr("disabled", false);
+    let form = this,
+        submit = $('.submit', form),
+        data = new FormData(),
+        files = $('input[type=file]')
 
-  data.append("name", $('[name="customer[firstname]"]', form).val());
-  data.append("phone", $('[name="customer[telephone]"]', form).val());
-  data.append("email", $('[name="customer[email]"]', form).val());
 
-  files.each(function (key, fileInput) {
-    let filesList = fileInput.files;
-    if (filesList.length > 0) {
-      $.each(filesList, function (key, file) {
-        data.append("files[]", file);
-      });
-    }
-  });
+    $('.submit', form).val('Отправка...');
+    $('input, textarea', form).attr('disabled','');
 
-  $.ajax({
-    url: "ajax.php",
-    type: "POST",
-    data: data,
-    cache: false,
-    dataType: "json",
-    processData: false,
-    contentType: false,
-    xhr: function () {
-      let myXhr = $.ajaxSettings.xhr();
+    data.append( 'name', 		$('[name="name"]', form).val() );
+    data.append( 'phone', 		$('[name="phone"]', form).val() );
+    data.append( 'email', 		$('[name="email"]', form).val() );
+    data.append( 'text', 		$('[name="text"]', form).val() );
+   
 
-      if (myXhr.upload) {
-        myXhr.upload.addEventListener(
-          "progress",
-          function (e) {
-            if (e.lengthComputable) {
-              let percentage = (e.loaded / e.total) * 100;
-              percentage = percentage.toFixed(0);
-              submitButton.html("Оформлення замовлення: " + percentage + "%");
+    files.each(function (key, file) {
+        let cont = file.files;
+        if ( cont ) {
+            $.each( cont, function( key, value ) {
+                data.append( key, value );
+            });
+        }
+    });
+    
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        data: data,
+        cache: false,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        xhr: function() {
+            let myXhr = $.ajaxSettings.xhr();
+
+            if ( myXhr.upload ) {
+                myXhr.upload.addEventListener( 'progress', function(e) {
+                    if ( e.lengthComputable ) {
+                        let percentage = ( e.loaded / e.total ) * 100;
+                            percentage = percentage.toFixed(0);
+                        $('.submit', form)
+                            .html( percentage + '%' );
+                    }
+                }, false );
             }
-          },
-          false
-        );
-      }
 
-      return myXhr;
-    },
-    error: function (jqXHR, textStatus) {
-      alert("Помилка");
-    },
-    success: function (data) {
-      alert("Успішно");
-    },
-    complete: function () {
-      submitButton.text("Оформити замовлення").attr("disabled", false);
-      form.reset();
-    },
-  });
+            return myXhr;
+        },
+        error: function( jqXHR, textStatus ) {
+            // Тут выводим ошибку
+        },
+        complete: function() {
+            // Тут можем что-то делать ПОСЛЕ успешной отправки формы
+            console.log('Complete')
+            form.reset() 
+        }
+    });
+
+    return false;
 });
